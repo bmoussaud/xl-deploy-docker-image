@@ -1,0 +1,39 @@
+xl {
+    conf-file {
+        # Location of the configuration file.
+        location="conf/deployit.conf"
+    }
+    deploy {
+        websockets {
+            message-broker {}
+            threadpool {}
+        }
+    }
+    reporting {
+        database {
+            db-driver-classname=${xl.repository.database.db-driver-classname}
+            db-password=${xl.repository.database.db-password}
+            db-url=${xl.repository.database.db-url}
+            db-username=${xl.repository.database.db-username}
+            max-pool-size=${xl.repository.database.max-pool-size}
+        }
+    }
+    repository {
+        artifacts {
+            type=db
+        }
+        # Database connection configuration for repository data 
+        database {
+            db-driver-classname="${JDBC_DRIVER}"
+            db-password="${JDBC_PASSWORD}"
+            db-url="${JDBC_URL}"
+            db-username="${JDBC_USERNAME}"
+            max-pool-size=10
+        }
+        root=repository
+    }
+    rest {
+        api {}
+    }
+}
+

@@ -63,6 +63,39 @@ if [ ! -f "${APP_HOME}/conf/deployit.conf" ]; then
   fi
 fi
 
+echo "Manage the database configuration..."
+echo "... copy JDBC Drivers to ${APP_HOME}/lib"
+find ${APP_HOME}/drivers
+
+cp ${APP_HOME}/drivers/*.jar ${APP_HOME}/lib
+
+if [ "${JDBC_PASSWORD}" = "" ]; then
+  echo "... Please provide a password for the jdbc connection to the database"
+  exit 1
+fi
+
+if [ "${JDBC_USERNAME}" = "" ]; then
+  echo "... Please provide a username for the jdbc connection to the database"
+  exit 1
+fi
+
+if [ "${JDBC_DRIVER}" = "" ]; then
+  echo "... Please provide a driver class for the jdbc connection to the database"
+  exit 1
+fi
+
+if [ "${JDBC_URL}" = "" ]; then
+  echo "... Please provide a url for the jdbc connection to the database"
+  exit 1
+fi
+
+echo "... db username ${JDBC_USERNAME}"
+echo "... db url      ${JDBC_URL}"
+echo "... db driver   ${JDBC_DRIVER}"
+echo "... Generating  ${APP_HOME}/conf/xl-deploy.conf"
+
+sed -e "s/\${JDBC_PASSWORD}/${JDBC_PASSWORD}/g" -e "s/\${JDBC_USERNAME}/${JDBC_USERNAME}/g" -e "s#\${JDBC_URL}#${JDBC_URL}#g" -e "s/\${JDBC_DRIVER}/${JDBC_DRIVER}/g"  ${APP_HOME}/conf/xl-deploy.conf.template > ${APP_HOME}/conf/xl-deploy.conf
+
 
 
 # Generate node specific configuration with IP address of container

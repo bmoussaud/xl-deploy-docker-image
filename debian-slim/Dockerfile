@@ -16,6 +16,9 @@ RUN mkdir -p ${APP_ROOT} && \
 # Add bin/run-in-container.sh
 ADD resources/bin/run-in-container.sh ${APP_HOME}/bin/
 
+
+
+
 # Modify bin/run.sh so that java becomes a child process of dumb-init
 RUN sed -i 's/^\($JAVACMD $XL_DEPLOY_SERVER_OPTS\)/exec \1/' ${APP_HOME}/bin/run.sh
 
@@ -23,6 +26,7 @@ RUN sed -i 's/^\($JAVACMD $XL_DEPLOY_SERVER_OPTS\)/exec \1/' ${APP_HOME}/bin/run
 RUN mv ${APP_HOME}/conf ${APP_HOME}/default-conf && \
     mkdir ${APP_HOME}/conf
 COPY resources/default-conf ${APP_HOME}/default-conf
+COPY resources/drivers ${APP_HOME}/drivers
 
 # Modify conf/xld-wrapper-linux.conf to add node-conf to the classpath and to add container-specific VM options
 COPY resources/modify-xld-wrapper-linux-conf.gawk /tmp/modify-xld-wrapper-linux-conf.gawk
@@ -41,6 +45,8 @@ RUN mv ${APP_HOME}/plugins ${APP_HOME}/default-plugins && \
 
 # Create empty repository directory
 RUN mkdir ${APP_HOME}/repository
+
+
 
 # Set permissions
 RUN chgrp -R 0 ${APP_ROOT} && \
@@ -73,7 +79,7 @@ WORKDIR ${APP_HOME}
 # Don't run as root
 USER 10001
 
-VOLUME ["${APP_HOME}/conf", "${APP_HOME}/hotfix/lib", "${APP_HOME}/hotfix/plugins", "${APP_HOME}/ext", "${APP_HOME}/plugins", "${APP_HOME}/repository"]
+VOLUME ["${APP_HOME}/conf", "${APP_HOME}/hotfix/lib", "${APP_HOME}/hotfix/plugins", "${APP_HOME}/ext", "${APP_HOME}/plugins","${APP_HOME}/drivers", "${APP_HOME}/repository"]
 EXPOSE 4516
 
 # Environment variables are not expanded when using the exec form of the ENTRYPOINT command. They are
