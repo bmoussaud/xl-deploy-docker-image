@@ -52,7 +52,8 @@ RUN mv ${APP_HOME}/plugins ${APP_HOME}/default-plugins && \
 # Create empty repository directory
 RUN mkdir ${APP_HOME}/repository
 
-
+# Copy the sample applications
+COPY resources/importablePackages/* ${APP_HOME}/importablePackages
 
 # Set permissions
 RUN chgrp -R 0 ${APP_ROOT} && \

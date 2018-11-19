@@ -1,2 +1,3 @@
 .idearesources/*.zip
 .idea/
+.DS_Store
