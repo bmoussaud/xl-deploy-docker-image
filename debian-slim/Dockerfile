@@ -39,9 +39,15 @@ RUN chmod +x /tmp/modify-xld-wrapper-linux-conf.gawk && \
 RUN mkdir ${APP_HOME}/node-conf
 ADD resources/node-conf/xl-deploy.conf.template ${APP_HOME}/node-conf
 
+# Update the plugins directory
+RUN rm ${APP_HOME}/plugins/xld-kubernetes-plugin-8.0.1.xldp
+COPY resources/newplugins/* ${APP_HOME}/plugins
+RUN ls -lrt ${APP_HOME}/plugins
+
 # Move plugins directory
 RUN mv ${APP_HOME}/plugins ${APP_HOME}/default-plugins && \
     mkdir ${APP_HOME}/plugins
+
 
 # Create empty repository directory
 RUN mkdir ${APP_HOME}/repository
