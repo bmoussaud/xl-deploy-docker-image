@@ -6,7 +6,7 @@ metadata:
     app: xldeploy
 data:
   ADMIN_PASSWORD: admin
-  JDBC_USERNAME: postgresadmin1
-  JDBC_PASSWORD: xl123admin456
-  JDBC_URL: jdbc:postgresql://xldbpostgres.cjofzmugihxg.us-west-2.rds.amazonaws.com:5432/postgres
+  JDBC_USERNAME: postgres
+  JDBC_PASSWORD: mysecretpassword
+  JDBC_URL: jdbc:postgresql://postgres:5432/postgres
   JDBC_DRIVER: org.postgresql.Driver
