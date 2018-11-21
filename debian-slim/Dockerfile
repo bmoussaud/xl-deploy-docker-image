@@ -16,9 +16,6 @@ RUN mkdir -p ${APP_ROOT} && \
 # Add bin/run-in-container.sh
 ADD resources/bin/run-in-container.sh ${APP_HOME}/bin/
 
-
-
-
 # Modify bin/run.sh so that java becomes a child process of dumb-init
 RUN sed -i 's/^\($JAVACMD $XL_DEPLOY_SERVER_OPTS\)/exec \1/' ${APP_HOME}/bin/run.sh
 
@@ -82,7 +79,8 @@ LABEL name="xebialabs/xl-deploy" \
       description="Enterprise-scale Application Release Automation for any environment" \
       url="https://www.xebialabs.com/xl-deploy"
 
-ENV USER_UID=10001 APP_ROOT=/opt/xebialabs
+ENV APP_ROOT=/opt/xebialabs
+#ENV USER_UID=10001 APP_ROOT=/opt/xebialabs
 ENV APP_HOME=${APP_ROOT}/xl-deploy-server
 
 ADD resources/amd64/tini ${APP_ROOT}/tini
@@ -94,7 +92,7 @@ COPY --from=installer ${APP_ROOT} ${APP_ROOT}
 WORKDIR ${APP_HOME}
 
 # Don't run as root
-USER 10001
+#USER 10001
 
 VOLUME ["${APP_HOME}/conf", "${APP_HOME}/hotfix/lib", "${APP_HOME}/hotfix/plugins", "${APP_HOME}/ext", "${APP_HOME}/plugins","${APP_HOME}/drivers", "${APP_HOME}/repository"]
 EXPOSE 4516

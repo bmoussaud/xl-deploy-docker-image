@@ -45,9 +45,9 @@ spec:
         envFrom:
             - configMapRef:
                 name: xldeploy-config
-        #securityContext:
-        #    runAsUser: 1001
-        #    runAsGroup: 1001
+        securityContext:
+            runAsUser: 1001
+            runAsGroup: 1001
       volumes:
         - name: xldeploy-storage-conf
           persistentVolumeClaim:
