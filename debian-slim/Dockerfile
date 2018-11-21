@@ -55,6 +55,16 @@ RUN mkdir ${APP_HOME}/repository
 # Copy the sample applications
 COPY resources/importablePackages/* ${APP_HOME}/importablePackages/
 
+# install kube tools
+RUN apk add --no-cache curl
+RUN curl -o ${APP_HOME}/bin/kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/kubectl
+RUN chmod +x ${APP_HOME}/bin/kubectl
+RUN ${APP_HOME}/bin/kubectl version --short --client
+
+RUN curl -o ${APP_HOME}/bin/aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator
+RUN chmod +x ${APP_HOME}/bin/aws-iam-authenticator
+RUN ${APP_HOME}/bin/aws-iam-authenticator help
+
 # Set permissions
 RUN chgrp -R 0 ${APP_ROOT} && \
     chmod -R g=u ${APP_ROOT} && \
