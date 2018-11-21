@@ -6,6 +6,7 @@ kubectl patch storageclass gp2 -p '{"metadata": {"annotations":{"storageclass.ku
 
 kubectl apply -n xebialabs -f xldeploy-configmap.yaml
 kubectl describe  cm -n xebialabs xldeploy-config
+
 kubectl apply -n xebialabs -f xldeploy-storage.yaml
 kubectl get pvc -n xebialabs
 kubectl describe pvc xld-pv-claim-conf -n xebialabs

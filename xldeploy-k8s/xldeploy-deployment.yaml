@@ -19,15 +19,15 @@ spec:
     spec:
       containers:
       - name: xldeploy
-        image: bmoussaud/xl-deploy-with-db:8.2.2
+        image: bmoussaud/xl-deploy-with-db:8.2.4
         imagePullPolicy: Always
         ports:
         - name: xld-http
           containerPort: 4516
           protocol: TCP
         volumeMounts:
-          - name: xldeploy-storage-conf
-            mountPath: /opt/xebialabs/xl-deploy-server/conf
+          - name: xldeploy-storage-ext
+            mountPath: /opt/xebialabs/xl-deploy-server/ext
         livenessProbe:
             httpGet:
               path: /
@@ -49,6 +49,7 @@ spec:
         #    runAsUser: 1001
         #    runAsGroup: 1001
       volumes:
-        - name: xldeploy-storage-conf
+        - name: xldeploy-storage-ext
           persistentVolumeClaim:
-            claimName: xld-pv-claim-conf
+            claimName: xld-pv-claim-ext
+
