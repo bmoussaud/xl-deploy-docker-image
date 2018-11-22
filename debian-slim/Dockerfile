@@ -54,22 +54,24 @@ COPY resources/importablePackages/* ${APP_HOME}/importablePackages/
 
 # install kube tools
 RUN apk add --no-cache curl
-RUN curl -o /usr/local/bin/kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/kubectl
-RUN chmod +x /usr/local/bin/kubectl
-RUN ln -s /usr/local/bin/kubectl ${APP_HOME}/bin/kubectl
-RUN ${APP_HOME}/bin/kubectl version --short --client
+RUN curl -o ${APP_HOME}/bin/kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/kubectl
+RUN chmod +x ${APP_HOME}/bin/kubectl
+RUN ln -s ${APP_HOME}/bin/kubectl /usr/local/bin/kubectl ${APP_HOME}/bin/kubectl
+RUN /usr/local/bin/kubectl version --short --client
 
-RUN curl -o /usr/local/bin/aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator
-RUN chmod +x /usr/local/bin/aws-iam-authenticator
-RUN ln -s /usr/local/bin/aws-iam-authenticator ${APP_HOME}/bin/aws-iam-authenticator
-RUN ${APP_HOME}/bin/aws-iam-authenticator help
+RUN curl -o ${APP_HOME}/bin/aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator
+RUN chmod +x ${APP_HOME}/bin/aws-iam-authenticator
+RUN ln -s ${APP_HOME}/bin/aws-iam-authenticator /usr/local/bin/aws-iam-authenticator
+RUN /usr/local/bin/aws-iam-authenticator help
 
 RUN curl -o /tmp/helm.tgz https://storage.googleapis.com/kubernetes-helm/helm-v2.11.0-linux-amd64.tar.gz
 RUN cd /tmp && tar zxvf /tmp/helm.tgz
-RUN mv /tmp/linux-amd64/helm /usr/local/bin
-RUN mv /tmp/linux-amd64/tiller /usr/local/bin
-RUN chmod +x /usr/local/bin/helm
-RUN chmod +x /usr/local/bin/tiller
+RUN mv /tmp/linux-amd64/helm ${APP_HOME}/bin
+RUN mv /tmp/linux-amd64/tiller ${APP_HOME}/bin
+RUN chmod +x ${APP_HOME}/bin/helm
+RUN chmod +x ${APP_HOME}/bin/tiller
+RUN ln -s ${APP_HOME}/bin/helm  /usr/local/bin/helm
+RUN ln -s ${APP_HOME}/bin/tiller  /usr/local/bin/tiller
 
 # Set permissions
 RUN chgrp -R 0 ${APP_ROOT} && \
