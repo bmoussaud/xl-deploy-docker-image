@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: xldeploy
-        image: bmoussaud/xl-deploy-with-db:8.2.4
+        image: bmoussaud/xl-deploy-with-db:8.2.5
         imagePullPolicy: Always
         ports:
         - name: xld-http

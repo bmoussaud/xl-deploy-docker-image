@@ -38,7 +38,7 @@ ADD resources/node-conf/xl-deploy.conf.template ${APP_HOME}/node-conf
 
 # Update the plugins directory
 RUN rm ${APP_HOME}/plugins/xld-kubernetes-plugin-8.0.1.xldp
-COPY resources/newplugins/* ${APP_HOME}/plugins
+COPY resources/newplugins/* ${APP_HOME}/plugins/
 RUN ls -lrt ${APP_HOME}/plugins
 
 # Move plugins directory
