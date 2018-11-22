@@ -56,7 +56,7 @@ COPY resources/importablePackages/* ${APP_HOME}/importablePackages/
 RUN apk add --no-cache curl
 RUN curl -o ${APP_HOME}/bin/kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/kubectl
 RUN chmod +x ${APP_HOME}/bin/kubectl
-RUN ln -s ${APP_HOME}/bin/kubectl /usr/local/bin/kubectl ${APP_HOME}/bin/kubectl
+RUN ln -s ${APP_HOME}/bin/kubectl /usr/local/bin/kubectl
 RUN /usr/local/bin/kubectl version --short --client
 
 RUN curl -o ${APP_HOME}/bin/aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator
