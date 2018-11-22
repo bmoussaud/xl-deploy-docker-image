@@ -1,7 +1,7 @@
 FROM alpine:3.7 as installer
 
 # Install dependencies
-RUN apk add --no-cache gawk unzip
+RUN apk add --no-cache gawk unzip git
 
 ARG XLD_VERSION
 ENV APP_ROOT=/opt/xebialabs
