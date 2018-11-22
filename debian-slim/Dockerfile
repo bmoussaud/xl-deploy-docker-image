@@ -70,8 +70,6 @@ RUN mv /tmp/linux-amd64/helm /usr/local/bin
 RUN mv /tmp/linux-amd64/tiller /usr/local/bin
 RUN chmod +x /usr/local/bin/helm
 RUN chmod +x /usr/local/bin/tiller
-RUN helm version
-RUN tiller -version
 
 # Set permissions
 RUN chgrp -R 0 ${APP_ROOT} && \
