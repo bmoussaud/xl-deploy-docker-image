@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<udm.DeploymentPackage application="xld" version="8.2.7">
+    <deployables>
+        <k8s.ResourcesFile name="xld-config" file="xldeploy-configmap.yaml"/>
+        <k8s.ResourcesFile name="xld-service" file="xldeploy-service.yaml"/>
+        <k8s.ResourcesFile name="xld-deployment" file="xldeploy-deployment.yaml"/>
+        <k8s.ResourcesFile name="xld-storage" file="xldeploy-storage.yaml"/>
+    </deployables>
+</udm.DeploymentPackage>

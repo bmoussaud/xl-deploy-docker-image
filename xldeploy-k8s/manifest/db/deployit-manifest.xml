@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<udm.DeploymentPackage application="postgres" version="11.0">
+    <deployables>
+        <k8s.ResourcesFile name="config" file="postgres-configmap.yaml"/>
+        <k8s.ResourcesFile name="service" file="postgres-service.yaml"/>
+        <k8s.ResourcesFile name="deployment" file="postgres-deployment.yaml"/>
+    </deployables>
+</udm.DeploymentPackage>

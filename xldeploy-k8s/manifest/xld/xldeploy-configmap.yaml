@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: xldeploy-config
+  labels:
+    app: xldeploy
+data:
+  ADMIN_PASSWORD: admin
+  JDBC_USERNAME: {{XLD_DB_USERNAME}}
+  JDBC_PASSWORD: {{XLD_DB_PASSWORD}}
+  JDBC_URL: jdbc:postgresql://postgres:5432/postgres
+  JDBC_DRIVER: org.postgresql.Driver

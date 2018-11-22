@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  labels:
+    app: postgres
+data:
+  POSTGRES_DB: postgres
+  POSTGRES_USER: {{XLD_DB_USERNAME}}
+  POSTGRES_PASSWORD: {{XLD_DB_PASSWORD}}
