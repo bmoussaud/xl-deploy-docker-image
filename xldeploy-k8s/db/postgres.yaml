@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  labels:
+    app: postgres
+    release: "10.4"
+data:
+  POSTGRES_DB: postgres
+  POSTGRES_USER: xldadministrator
+  POSTGRES_PASSWORD: mysecretpassword
+  #PGDATA: /var/lib/postgresql/data/data
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: postgres-pv-claim-11
+  labels:
+    app: postgres
+    release: "10.4"
+spec:
+  #storageClassName: gp2
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+      matchLabels:
+        app: postgres
+        release: "10.4"
+  template:
+    metadata:
+      labels:
+        app: postgres
+        release: "10.4"
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:10.4
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: postgres-config
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgredb
+              subPath: postgres
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim-11
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  labels:
+    app: postgres
+    release: "10.4"
+spec:
+  type: LoadBalancer
+  ports:
+   - port: 5432
+  selector:
+   app: postgres
+   release: "10.4"
