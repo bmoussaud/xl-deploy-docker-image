@@ -76,7 +76,7 @@ else
   echo "---"
   ls -l ${APP_HOME}
   find ${APP_HOME}/conf -ls
-  echo "---
+  echo "---"
 fi
 
 echo "Manage the database configuration..."
