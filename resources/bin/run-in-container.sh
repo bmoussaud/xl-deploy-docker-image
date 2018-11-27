@@ -26,6 +26,10 @@ fi
 # Set up new installation
 if [ ! -f "${APP_HOME}/conf/deployit.conf" ]; then
   echo "No ${APP_HOME}/conf/deployit.conf file detected:"
+  echo "... create and link ${APP_HOME}/ext/xldeploy-configuration"
+  mkdir -p ${APP_HOME}/ext/xldeploy-configuration
+  rm -rf ${APP_HOME}/conf/
+  ln -s ${APP_HOME}/ext/xldeploy-configuration ${APP_HOME}/conf
   echo "... Copying default configuration from ${APP_HOME}/default-conf"
 
   cd ${APP_HOME}/default-conf
