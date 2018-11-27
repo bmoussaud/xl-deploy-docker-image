@@ -4,9 +4,10 @@ metadata:
   name: xldeploy-config
   labels:
     app: xldeploy
+    release: "8.2.1"
 data:
   ADMIN_PASSWORD: admin
-  JDBC_USERNAME: postgres
+  JDBC_USERNAME: xldadministrator
   JDBC_PASSWORD: mysecretpassword
   JDBC_URL: jdbc:postgresql://postgres:5432/postgres
   JDBC_DRIVER: org.postgresql.Driver

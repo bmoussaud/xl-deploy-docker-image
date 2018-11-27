@@ -2,31 +2,28 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: xldeploy-deployment
-  labels:
-    app: xldeploy
-    release: 8.2.1
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: xldeploy
-      release: 8.2.1
+      release: "8.2.1"
   template:
     metadata:
       labels:
         app: xldeploy
-        release: 8.2.1
+        release: "8.2.1"
     spec:
       containers:
       - name: xldeploy
-        image: bmoussaud/xl-deploy-with-db:8.2.7
+        image: bmoussaud/xl-deploy-with-db:8.2.8
         imagePullPolicy: Always
         ports:
         - name: xld-http
           containerPort: 4516
           protocol: TCP
         volumeMounts:
-          - name: xldeploy-storage-ext
+          - name: xldeploy-storage-configuration
             mountPath: /opt/xebialabs/xl-deploy-server/ext
         livenessProbe:
             httpGet:
@@ -46,7 +43,6 @@ spec:
             - configMapRef:
                 name: xldeploy-config
       volumes:
-        - name: xldeploy-storage-ext
+        - name: xldeploy-storage-configuration
           persistentVolumeClaim:
-            claimName: xld-pv-claim-ext
-
+            claimName: xld-pv-claim-configuration

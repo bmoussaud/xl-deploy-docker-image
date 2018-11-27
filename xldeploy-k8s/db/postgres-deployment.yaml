@@ -1,20 +1,33 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
 spec:
   replicas: 1
+  selector:
+      matchLabels:
+        app: postgres
+        release: "10.4"
   template:
     metadata:
       labels:
         app: postgres
+        release: "10.4"
     spec:
       containers:
         - name: postgres
-          image: postgres:11
+          image: postgres:10.4
           imagePullPolicy: "IfNotPresent"
           ports:
             - containerPort: 5432
           envFrom:
             - configMapRef:
                 name: postgres-config
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgredb
+              subPath: postgres
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim-11
