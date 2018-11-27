@@ -70,8 +70,6 @@ RUN mv /tmp/linux-amd64/helm ${APP_HOME}/bin
 RUN mv /tmp/linux-amd64/tiller ${APP_HOME}/bin
 RUN chmod +x ${APP_HOME}/bin/helm
 RUN chmod +x ${APP_HOME}/bin/tiller
-RUN ln -s ${APP_HOME}/bin/helm  /usr/local/bin/helm
-RUN ln -s ${APP_HOME}/bin/tiller  /usr/local/bin/tiller
 
 # Set permissions
 RUN chgrp -R 0 ${APP_ROOT} && \
