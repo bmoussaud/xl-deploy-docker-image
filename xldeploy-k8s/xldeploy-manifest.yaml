@@ -1,0 +1,108 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: xldeploy-config
+  labels:
+    app: xldeploy
+    release: "8.2.1"
+  annotations:
+    xld.type: k8s.ConfigMap
+    #auto generate property placeholder for all the value, 
+    #and assign the current values to the default dictionary
+    xld.convert_to_dict: True
+data:
+  ADMIN_PASSWORD: admin
+  JDBC_USERNAME: xldadministrator
+  JDBC_PASSWORD: mysecretpassword
+  JDBC_URL: jdbc:postgresql://postgres:5432/postgres
+  JDBC_DRIVER: org.postgresql.Driver
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: xld-pv-claim-configuration
+  labels:
+    app: xldeploy
+    release: "8.2.1"
+  annotations:
+    # as this type is not support we would manage it as YAML only
+    xld.type: k8s.ResourceFile
+spec:
+  #storageClassName: gp2
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xldeploy-deployment
+  annotations:
+    xld.type: k8s.DeploymentSpec
+    xld.application.id: Applications/XLDeploy/8.2.1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xldeploy
+      release: "8.2.1"
+  template:
+    metadata:
+      labels:
+        app: xldeploy
+        release: "8.2.1"
+    spec:
+      containers:
+      - name: xldeploy
+        image: bmoussaud/xl-deploy-with-db:8.2.8
+        imagePullPolicy: Always
+        ports:
+        - name: xld-http
+          containerPort: 4516
+          protocol: TCP
+        volumeMounts:
+          - name: xldeploy-storage-configuration
+            mountPath: /opt/xebialabs/xl-deploy-server/ext
+        livenessProbe:
+            httpGet:
+              path: /
+              port: xld-http
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            failureThreshold: 12
+        readinessProbe:
+            httpGet:
+              path: /
+              port: xld-http
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            failureThreshold: 12
+        envFrom:
+            - configMapRef:
+                name: xldeploy-config
+      volumes:
+        - name: xldeploy-storage-configuration
+          persistentVolumeClaim:
+            claimName: xld-pv-claim-configuration
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xld-service
+  labels:
+    app: xldeploy
+    release: "8.2.1"
+  annotations:
+    xld.type: k8s.ServiceSpec
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 4516
+      targetPort: xld-http
+      protocol: TCP
+      name: xld-http-svc
+  selector:
+    app: xldeploy
+    release: "8.2.1"

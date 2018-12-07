@@ -71,12 +71,6 @@ else
   rm -rf ${APP_HOME}/conf
   ln -s ${APP_HOME}/ext/xldeploy-configuration ${APP_HOME}/conf
   ls -l ${APP_HOME}/ext/xldeploy-configuration
-  echo "---"
-  find ${APP_HOME}/ext/xldeploy-configuration -ls
-  echo "---"
-  ls -l ${APP_HOME}
-  find ${APP_HOME}/conf -ls
-  echo "---"
 fi
 
 echo "Manage the database configuration..."
